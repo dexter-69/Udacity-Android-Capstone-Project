@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">News Flash</string>
+    <string name="title_nav_headlines">Headlines</string>
+    <string name="title_nav_search">Search</string>
+    <string name="title_nav_offline_saved">Saved</string>
+    <string name="title_nav_world_news">World News</string>
+</resources>
