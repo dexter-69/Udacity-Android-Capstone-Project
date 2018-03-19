@@ -4,4 +4,5 @@
     <string name="title_nav_search">Search</string>
     <string name="title_nav_offline_saved">Saved</string>
     <string name="title_nav_world_news">World News</string>
+    <string name="news_image_desc">News Image</string>
 </resources>
