@@ -1,32 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
-    android:id="@+id/product_detail_main_content"
+    android:id="@+id/search_coordinator_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginBottom="56dp">
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
+        android:id="@+id/search_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        app:elevation="4dp"
+        android:background="@drawable/toolbar_background"
+        android:layout_height="100dp"
         android:theme="@style/AppTheme.AppBarOverlay">
+
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:contentScrim="?attr/colorPrimary">
+            <include
+                layout="@layout/toolbar"/>
         <com.mancj.materialsearchbar.MaterialSearchBar
             style="@style/MaterialSearchBarLight"
             android:id="@+id/searchBar"
             app:mt_placeholder="Search News"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="8dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             mt_searchBarColor="#fff"/>
+
         </android.support.design.widget.CollapsingToolbarLayout>
+
     </android.support.design.widget.AppBarLayout>
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/nsv_search"
@@ -49,4 +59,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        app:fabSize="normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:elevation="12dp"
+        android:layout_margin="@dimen/fab_margin"
+        app:backgroundTint="#348AC7"
+        android:src="@drawable/ic_action_filter" />
 </android.support.design.widget.CoordinatorLayout>

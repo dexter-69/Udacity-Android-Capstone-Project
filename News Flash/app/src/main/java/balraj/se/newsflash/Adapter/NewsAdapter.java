@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -31,7 +32,7 @@ import butterknife.ButterKnife;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
 
     private Context context;
-    private OnNewsArticleClickListener onNewsArticleClickListener;
+    private final OnNewsArticleClickListener onNewsArticleClickListener;
     private List<NewsArticle> articleList;
 
     public NewsAdapter(Context context, OnNewsArticleClickListener onNewsArticleClickListener,
@@ -82,7 +83,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     }
 
     public interface OnNewsArticleClickListener {
-        public void onNewsArticleClicked(NewsArticle clickedArticle);
+        void onNewsArticleClicked(NewsArticle clickedArticle);
     }
 
     public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -96,11 +97,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         @BindView(R.id.news_date_published_tv)
         TextView newsDatePubTv;
 
-        public NewsViewHolder(View itemView) {
+        NewsViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             ButterKnife.bind(this, itemView);
         }
-
 
         @Override
         public void onClick(View view) {
