@@ -51,7 +51,6 @@ public class SearchFragment extends Fragment implements MaterialSearchBar.OnSear
     @BindView(R.id.news_detail_rv)
     RecyclerView searchNewsRv;
     private NewsAdapter newsAdapter;
-    public static final String API_KEY = "bb77c20d92ea45c78344ae9abd560d16";
     @BindView(R.id.search_progress_bar)
     ProgressBar progressBar;
     @BindView(R.id.nsv_search)
