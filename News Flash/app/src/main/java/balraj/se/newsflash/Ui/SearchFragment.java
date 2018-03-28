@@ -72,6 +72,8 @@ public class SearchFragment extends Fragment implements MaterialSearchBar.OnSear
     private static final String NO_RESULTS = "No Results Found";
     @BindView(R.id.news_detail_rv)
     RecyclerView searchNewsRv;
+    private NewsAdapter newsAdapter;
+    private NewsAdapter newsAdapter;
     @BindView(R.id.search_progress_bar)
     ProgressBar progressBar;
     @BindView(R.id.nsv_search)
