@@ -27,7 +27,7 @@ public class Article implements Parcelable {
         in.readList(articles, NewsArticle.class.getClassLoader());
     }
 
-    public List<NewsArticle> getArticles() {
+    public List<balraj.se.newsflash.model.NewsArticle> getArticles() {
         return articles;
     }
 

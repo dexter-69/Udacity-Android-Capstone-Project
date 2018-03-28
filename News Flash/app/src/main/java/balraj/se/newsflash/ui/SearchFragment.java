@@ -72,8 +72,6 @@ public class SearchFragment extends Fragment implements MaterialSearchBar.OnSear
     private static final String NO_RESULTS = "No Results Found";
     @BindView(R.id.news_detail_rv)
     RecyclerView searchNewsRv;
-    private NewsAdapter newsAdapter;
-    private NewsAdapter newsAdapter;
     @BindView(R.id.search_progress_bar)
     ProgressBar progressBar;
     @BindView(R.id.nsv_search)
@@ -256,6 +254,7 @@ public class SearchFragment extends Fragment implements MaterialSearchBar.OnSear
                     return;
                 } else if (article.getArticles().size() == 0) {
                     showSearchError("No results found");
+                    return;
                 }
                 List<NewsArticle> newsArticles = article.getArticles();
                 newsAdapter.setArticleList(newsArticles);
