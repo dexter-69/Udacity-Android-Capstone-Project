@@ -1,4 +1,4 @@
-package balraj.se.newsflash.Model;
+package balraj.se.newsflash.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,7 +7,18 @@ import android.os.Parcelable;
  * Created by balra on 20-03-2018.
  */
 
-public class NewsArticle implements Parcelable{
+public class NewsArticle implements Parcelable {
+    public static final Creator<NewsArticle> CREATOR = new Creator<NewsArticle>() {
+        @Override
+        public NewsArticle createFromParcel(Parcel in) {
+            return new NewsArticle(in);
+        }
+
+        @Override
+        public NewsArticle[] newArray(int size) {
+            return new NewsArticle[size];
+        }
+    };
     private String author;
     private String title;
     private String description;
@@ -26,17 +37,9 @@ public class NewsArticle implements Parcelable{
         source = in.readParcelable(Source.class.getClassLoader());
     }
 
-    public static final Creator<NewsArticle> CREATOR = new Creator<NewsArticle>() {
-        @Override
-        public NewsArticle createFromParcel(Parcel in) {
-            return new NewsArticle(in);
-        }
-
-        @Override
-        public NewsArticle[] newArray(int size) {
-            return new NewsArticle[size];
-        }
-    };
+    public static Creator<NewsArticle> getCREATOR() {
+        return CREATOR;
+    }
 
     @Override
     public int describeContents() {
@@ -108,9 +111,5 @@ public class NewsArticle implements Parcelable{
 
     public void setSource(Source source) {
         this.source = source;
-    }
-
-    public static Creator<NewsArticle> getCREATOR() {
-        return CREATOR;
     }
 }

@@ -8,4 +8,4 @@
     android:layout_height="match_parent"
     android:padding="4dp"
     app:layoutManager="LinearLayoutManager"
-    tools:listitem="@layout/news_list_content"/>
+    tools:listitem="@layout/news_list_content" />

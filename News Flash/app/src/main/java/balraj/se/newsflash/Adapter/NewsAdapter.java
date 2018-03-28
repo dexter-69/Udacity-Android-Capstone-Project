@@ -1,27 +1,30 @@
-package balraj.se.newsflash.Adapter;
+package balraj.se.newsflash.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import balraj.se.newsflash.Model.Article;
-import balraj.se.newsflash.Model.NewsArticle;
-import balraj.se.newsflash.Model.Source;
 import balraj.se.newsflash.R;
+import balraj.se.newsflash.model.NewsArticle;
+import balraj.se.newsflash.model.Source;
+import balraj.se.newsflash.util.NewsDbUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -31,15 +34,21 @@ import butterknife.ButterKnife;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
 
-    private Context context;
+    private static final String SAVED_MESSAGE = "Saved!";
+    private static final String REMOVED_MESSAGE = "Removed!";
     private final OnNewsArticleClickListener onNewsArticleClickListener;
+    private Context context;
     private List<NewsArticle> articleList;
+    private boolean isOfflineFlag;
+    private SnackbarNotify snackbarNotify;
 
     public NewsAdapter(Context context, OnNewsArticleClickListener onNewsArticleClickListener,
-                       List<NewsArticle> articleList) {
+                       List<NewsArticle> articleList, SnackbarNotify snackbarNotify, boolean isOfflineFrag) {
         this.context = context;
         this.onNewsArticleClickListener = onNewsArticleClickListener;
         this.articleList = articleList;
+        this.isOfflineFlag = isOfflineFrag;
+        this.snackbarNotify = snackbarNotify;
     }
 
     @NonNull
@@ -55,31 +64,103 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         NewsArticle currentArticle = articleList.get(position);
         Source articleSource = currentArticle.getSource();
         holder.newsSourceTv.setText(articleSource.getName());
-        holder.newsDatePubTv.setText(currentArticle.getPublishedAt());
+
+        String publishedDate = currentArticle.getPublishedAt();
+        if (!TextUtils.isEmpty(publishedDate) && publishedDate.length() >= 10) {
+            holder.newsDatePubTv.setText(publishedDate.substring(0, 10));
+        } else {
+            holder.newsDatePubTv.setText(currentArticle.getPublishedAt());
+        }
         holder.newsTitleTv.setText(currentArticle.getTitle());
-        setRecipeThumbnail(holder.newsThumbnaailIv, currentArticle.getUrlToImage());
+        setNewsThumbnail(holder.newsThumbnaailIv, currentArticle.getUrlToImage());
+
+        setUpPopupMenu(holder.cardOptionsTv, currentArticle);
+    }
+
+    private void setUpPopupMenu(final TextView cardOptionsTv, final NewsArticle article) {
+        cardOptionsTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int menuId = isOfflineFlag ? R.menu.ofline_news_card_options : R.menu.news_card_options;
+                PopupMenu popupMenu = new PopupMenu(context, cardOptionsTv);
+                popupMenu.inflate(menuId);
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.save_offline:
+                                if(NewsDbUtils.isAlreadyPresent(context, article)) {
+                                    snackbarNotify.notifyAndMakeSnackbar("Already Present!");
+                                } else {
+                                    NewsDbUtils.saveArticleToDb(context, article);
+                                    snackbarNotify.notifyAndMakeSnackbar(SAVED_MESSAGE);
+                                }
+                                return true;
+                            case R.id.share_news:
+                                generateSharedIntent(article);
+                                return true;
+                            case R.id.remove_news:
+                                NewsDbUtils.deleteNewsArticleFromDatabase(context, article);
+                                deleteFromList(article);
+                                snackbarNotify.notifyAndMakeSnackbar(REMOVED_MESSAGE);
+                                return true;
+                        }
+                        return false;
+                    }
+                });
+
+                popupMenu.show();
+            }
+        });
+    }
+
+
+    private void deleteFromList(NewsArticle article) {
+        articleList.remove(article);
+        notifyDataSetChanged();
+    }
+
+    private void generateSharedIntent(NewsArticle article) {
+        Intent sharedIntent = new Intent(Intent.ACTION_SEND);
+        sharedIntent.setType("text/plain");
+        sharedIntent.putExtra(Intent.EXTRA_SUBJECT,
+                article.getTitle());
+        sharedIntent.putExtra(Intent.EXTRA_TEXT, article.getUrl());
+        context.startActivity(Intent.createChooser(sharedIntent, "Share news!"));
     }
 
     @SuppressLint("CheckResult")
-    private void setRecipeThumbnail(ImageView recipeThumnail, String imageUrl) {
+    private void setNewsThumbnail(ImageView recipeThumnail, String imageUrl) {
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.error(ContextCompat.getDrawable(context, R.drawable.news_fallback_drawable));
-
         Glide.with(context)
                 .setDefaultRequestOptions(requestOptions)
                 .load(imageUrl)
                 .into(recipeThumnail);
     }
 
-    public List<NewsArticle> getArticleList() {return this.articleList;}
-    @Override
-    public int getItemCount() {
-        return articleList == null ? 0 : articleList.size();
+    public List<NewsArticle> getArticleList() {
+        return this.articleList;
     }
 
     public void setArticleList(List<NewsArticle> articleList) {
         this.articleList = articleList;
         notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemCount() {
+        return articleList == null ? 0 : articleList.size();
+    }
+
+    private void presentSnackbar(View view, String message) {
+        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
+        snackbar.show();
+    }
+
+    public interface SnackbarNotify {
+        void notifyAndMakeSnackbar(String message);
     }
 
     public interface OnNewsArticleClickListener {
@@ -96,6 +177,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         TextView newsSourceTv;
         @BindView(R.id.news_date_published_tv)
         TextView newsDatePubTv;
+        @BindView(R.id.news_card_option_tv)
+        TextView cardOptionsTv;
 
         NewsViewHolder(View itemView) {
             super(itemView);

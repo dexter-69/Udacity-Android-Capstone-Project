@@ -1,6 +1,4 @@
-package balraj.se.newsflash.Retrofit;
-
-import java.util.logging.Level;
+package balraj.se.newsflash.retrofit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

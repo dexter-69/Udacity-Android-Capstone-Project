@@ -1,4 +1,4 @@
-package balraj.se.newsflash.Model;
+package balraj.se.newsflash.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -8,8 +8,28 @@ import android.os.Parcelable;
  */
 
 public class Source implements Parcelable {
+    public static final Creator<Source> CREATOR = new Creator<Source>() {
+        @Override
+        public Source createFromParcel(Parcel in) {
+            return new Source(in);
+        }
+
+        @Override
+        public Source[] newArray(int size) {
+            return new Source[size];
+        }
+    };
     private String name;
     private String id;
+
+    protected Source(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+    }
+
+    public static Creator<Source> getCREATOR() {
+        return CREATOR;
+    }
 
     public String getId() {
         return id;
@@ -27,15 +47,6 @@ public class Source implements Parcelable {
         this.name = name;
     }
 
-    public static Creator<Source> getCREATOR() {
-        return CREATOR;
-    }
-
-    protected Source(Parcel in) {
-        id = in.readString();
-        name = in.readString();
-    }
-
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
@@ -46,16 +57,4 @@ public class Source implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<Source> CREATOR = new Creator<Source>() {
-        @Override
-        public Source createFromParcel(Parcel in) {
-            return new Source(in);
-        }
-
-        @Override
-        public Source[] newArray(int size) {
-            return new Source[size];
-        }
-    };
 }

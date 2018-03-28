@@ -5,4 +5,26 @@
     <string name="title_nav_offline_saved">Saved</string>
     <string name="title_nav_world_news">World News</string>
     <string name="news_image_desc">News Image</string>
+    <string name="dots">⋮</string>
+    <string name="save_for_later">Save</string>
+    <string name="share">Share</string>
+    <string name="remove">Remove</string>
+    <string name="close">CLOSE</string>
+    <string name="read_full_story">Read Full Story :</string>
+    <string name="urltext"><a href="%1$s">Here</a></string>
+    <string name="news_article_author">Author : %1$s </string>
+    <string name="news_article_source">Source : %1$s </string>
+    <string name="published_date_tools_text">Published : 1970–01–01</string>
+    <string name="published_date">Published : %1$s </string>
+    <string name="widget_news_thumbnail">widget_news_thumbnail</string>
+    <string name="headline">Headline!</string>
+    <string name="news_detail_source_placeholder">Source : BBC News</string>
+    <string name="news_image_trans">news_image</string>
+    <string name="news_title_trans">news_title_transition</string>
+    <string name="error_message">Message</string>
+    <string name="go_offline">Go Offline</string>
+    <string name="error_image">Error Image</string>
+    <string name="server_error_message">Some error occurred, please try again later</string>
+    <string name="start_search_message">Lonely Here, Start Searching!</string>
+    <string name="retry">Retry</string>
 </resources>

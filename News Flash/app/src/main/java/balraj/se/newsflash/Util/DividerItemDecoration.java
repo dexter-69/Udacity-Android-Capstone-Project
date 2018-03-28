@@ -1,18 +1,8 @@
-package balraj.se.newsflash.Util;
+package balraj.se.newsflash.util;
 
 /**
  * Created by balra on 20-03-2018.
  */
-
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.AttributeSet;
-import android.view.View;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -27,11 +17,10 @@ import android.view.View;
 
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
+    int mOrientation = -1;
     private Drawable mDivider;
     private boolean mShowFirstDivider = false;
     private boolean mShowLastDivider = false;
-
-    int mOrientation = -1;
 
     public DividerItemDecoration(Context context, AttributeSet attrs) {
         final TypedArray a = context
