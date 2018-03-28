@@ -34,8 +34,6 @@ import butterknife.ButterKnife;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
 
-    private static final String SAVED_MESSAGE = "Saved!";
-    private static final String REMOVED_MESSAGE = "Removed!";
     private final OnNewsArticleClickListener onNewsArticleClickListener;
     private Context context;
     private List<NewsArticle> articleList;
@@ -91,10 +89,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                         switch (menuItem.getItemId()) {
                             case R.id.save_offline:
                                 if(NewsDbUtils.isAlreadyPresent(context, article)) {
-                                    snackbarNotify.notifyAndMakeSnackbar("Already Present!");
+                                    snackbarNotify.notifyAndMakeSnackbar(context.getString(R.string.already_present));
                                 } else {
                                     NewsDbUtils.saveArticleToDb(context, article);
-                                    snackbarNotify.notifyAndMakeSnackbar(SAVED_MESSAGE);
+                                    snackbarNotify.notifyAndMakeSnackbar(context.getString(R.string.saved_message));
                                 }
                                 return true;
                             case R.id.share_news:
@@ -103,7 +101,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                             case R.id.remove_news:
                                 NewsDbUtils.deleteNewsArticleFromDatabase(context, article);
                                 deleteFromList(article);
-                                snackbarNotify.notifyAndMakeSnackbar(REMOVED_MESSAGE);
+                                snackbarNotify.notifyAndMakeSnackbar(context.getString(R.string.removed_message));
                                 return true;
                         }
                         return false;
@@ -127,7 +125,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         sharedIntent.putExtra(Intent.EXTRA_SUBJECT,
                 article.getTitle());
         sharedIntent.putExtra(Intent.EXTRA_TEXT, article.getUrl());
-        context.startActivity(Intent.createChooser(sharedIntent, "Share news!"));
+        context.startActivity(Intent.createChooser(sharedIntent, context.getString(R.string.share_news)));
     }
 
     @SuppressLint("CheckResult")

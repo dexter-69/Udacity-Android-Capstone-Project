@@ -91,7 +91,6 @@ public class SearchFragment extends Fragment implements MaterialSearchBar.OnSear
     private NewsAdapter newsAdapter;
     private Parcelable parcelable;
     private Tracker mTracker;
-    private boolean mTwoPane;
     private int listSize;
     private String query;
 
@@ -253,7 +252,7 @@ public class SearchFragment extends Fragment implements MaterialSearchBar.OnSear
                     showSearchEntrance();
                     return;
                 } else if (article.getArticles().size() == 0) {
-                    showSearchError("No results found");
+                    showSearchError(getString(R.string.no_results_found));
                     return;
                 }
                 List<NewsArticle> newsArticles = article.getArticles();
@@ -265,9 +264,7 @@ public class SearchFragment extends Fragment implements MaterialSearchBar.OnSear
 
             @Override
             public void onFailure(Call<Article> call, Throwable t) {
-                Log.e("Err", "Error");
-                Log.e("Err", t.getMessage());
-                showSearchError("Some Error Occurred");
+                showSearchError(getString(R.string.some_error_occured));
             }
         });
     }
@@ -326,7 +323,7 @@ public class SearchFragment extends Fragment implements MaterialSearchBar.OnSear
             progressBar.setVisibility(View.VISIBLE);
             startSearch(query);
         }
-        mTracker.setScreenName("Fragment~ " + name);
+        mTracker.setScreenName(getString(R.string.fragment_string) + name);
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 

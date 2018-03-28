@@ -59,7 +59,6 @@ public class OfflineItemFragment extends Fragment implements NewsAdapter.OnNewsA
     private Parcelable parcelable;
     private int LOADER_ID = 0;
     private Tracker mTracker;
-    private boolean mTwoPane;
 
     public OfflineItemFragment() {
     }
@@ -99,16 +98,13 @@ public class OfflineItemFragment extends Fragment implements NewsAdapter.OnNewsA
 
         newsRecyclerView.setLayoutAnimation(controller);
         if (savedInstanceState != null) {
-            List<NewsArticle> list = savedInstanceState.getParcelableArrayList("list");
+            List<NewsArticle> list = savedInstanceState.getParcelableArrayList(HeadlinesFragment.NEWS_LIST);
             newsAdapter.setArticleList(list);
-            parcelable = savedInstanceState.getParcelable("state");
+            parcelable = savedInstanceState.getParcelable(HeadlinesFragment.LIST_STATE);
             newsRecyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
         } else {
             progressBar.setVisibility(View.VISIBLE);
             getLoaderManager().initLoader(LOADER_ID, null, this);
-        }
-        if (view.findViewById(R.id.news_detail_container) != null) {
-            mTwoPane = true;
         }
 
         return view;
@@ -147,8 +143,8 @@ public class OfflineItemFragment extends Fragment implements NewsAdapter.OnNewsA
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable("state", parcelable);
-        outState.putParcelableArrayList("list", (ArrayList<NewsArticle>) newsAdapter.getArticleList());
+        outState.putParcelable(HeadlinesFragment.LIST_STATE, parcelable);
+        outState.putParcelableArrayList(HeadlinesFragment.NEWS_LIST, (ArrayList<NewsArticle>) newsAdapter.getArticleList());
     }
 
     @NonNull
@@ -172,7 +168,7 @@ public class OfflineItemFragment extends Fragment implements NewsAdapter.OnNewsA
     @Override
     public void onResume() {
         super.onResume();
-        mTracker.setScreenName("Fragment~ " + name);
+        mTracker.setScreenName(getString(R.string.fragment_string) + name);
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         getLoaderManager().initLoader(LOADER_ID, null, this);
     }

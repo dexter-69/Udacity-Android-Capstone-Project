@@ -85,7 +85,6 @@ public class HeadlinesFragment extends Fragment implements NewsAdapter.OnNewsArt
     private Bundle saved = new Bundle();
     private InterstitialAd mInterstitialAd;
     private Tracker mTracker;
-    private boolean mTwoPane;
 
     public HeadlinesFragment() {
     }
@@ -98,7 +97,7 @@ public class HeadlinesFragment extends Fragment implements NewsAdapter.OnNewsArt
         mTracker = application.getDefaultTracker();
 
         mInterstitialAd = new InterstitialAd(getContext());
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.setAdUnitId(getString(R.string.admob_id));
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
     }
 
@@ -135,10 +134,6 @@ public class HeadlinesFragment extends Fragment implements NewsAdapter.OnNewsArt
             newsRecyclerView.getLayoutManager().onRestoreInstanceState(parcelable);
         } else {
             loadHeadlines();
-        }
-
-        if (view.findViewById(R.id.news_detail_container) != null) {
-            mTwoPane = true;
         }
 
         return view;
@@ -245,7 +240,7 @@ public class HeadlinesFragment extends Fragment implements NewsAdapter.OnNewsArt
     @Override
     public void onResume() {
         super.onResume();
-        mTracker.setScreenName("Fragment~ " + name);
+        mTracker.setScreenName(getString(R.string.fragment_string) + name);
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 }

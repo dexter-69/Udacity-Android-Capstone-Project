@@ -27,4 +27,12 @@
     <string name="server_error_message">Some error occurred, please try again later</string>
     <string name="start_search_message">Lonely Here, Start Searching!</string>
     <string name="retry">Retry</string>
+    <string name="share_news">Share news!</string>
+    <string name="admob_id">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="fragment_string">Fragment~</string>
+    <string name="no_results_found">No results found</string>
+    <string name="some_error_occured">Some Error Occurred</string>
+    <string name="already_present">Already Present!</string>
+    <string name="saved_message">Saved!</string>
+    <string name="removed_message">Removed!</string>
 </resources>

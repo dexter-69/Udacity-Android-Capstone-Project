@@ -53,7 +53,6 @@ public class NewsDetailFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.v("Enter", "Yes");
         Bundle args = getArguments();
 
 
@@ -76,9 +75,7 @@ public class NewsDetailFragment extends Fragment {
                 ((NewsDetailActivity) getActivity()).setSupportActionBar(toolbar);
                 ActionBar actionBar = ((NewsDetailActivity) getActivity()).getSupportActionBar();
                 actionBar.setDisplayHomeAsUpEnabled(true);
-                actionBar.setTitle("" +
-                        "" +
-                        "");
+                actionBar.setTitle("");
             }
         }
         return view;
